@@ -12,6 +12,20 @@
 		margin-top: 30px;
 	}
 	</style>
+
+	<script>
+		$(document).ready(function(){
+		$(document).on('click','#remove',function(){
+				var type = $(this).attr("href");
+				if(confirm("are you sure?") == true){
+					$(this).attr('href',type);
+				}else{
+					$(this).attr('href',"/admin/dashboard");
+				}
+		});
+		});
+    </script>
+
 </head>
 <body>
 	<div class = 'container'>
@@ -62,7 +76,7 @@
 								<td><?=$value['email']?></td>
 								<td><?=$value['created_at']?></td>
 								<td><?=$value['user_level']?></td>
-								<td><a href="/users/edit/<?=$value['id']?>">edit</a> | <a href="/users/remove/<?=$value['id']?>">remove</a></td>
+								<td><a href="/users/edit/<?=$value['id']?>">edit</a> | <a id = "remove" href="/users/remove/<?=$value['id']?>"><button id="button" name="<?=$value['id']?>">remove</button></a></td>
 							</tr>
 							<?}?>
 						<?}?>

@@ -65,7 +65,6 @@
 									<?php if($this->session->userdata('user')['user_level']==9){
 										echo "<a href='/admin/dashboard'>Dashboard</a>";
 									}else {echo "<a href='/dashboard'>Dashboard</a>";}?>
-									
 								</li>
 							</ul>
 							<ul class="nav navbar-nav">
@@ -141,7 +140,7 @@
 						<form action='/edit/profile' method='post' enctype='multipart/form-data'>	
 							<div class="form-group">
 								<input type='hidden' name='action' value='description'>
-								<textarea cols='50'></textarea>
+								<textarea type="text" name="text" cols='50'></textarea>
 							</div>
 							<button type="submit" class="btn btn-success pull-right">Save</button>
 						</form>

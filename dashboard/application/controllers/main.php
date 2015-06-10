@@ -102,7 +102,7 @@ class Main extends CI_Controller {
 	//method to process new user
 	public function add_user()
 	{
-		// if($this->input->post()){
+	//-----------this method is for adding user through admin as well as registrtion page------------->
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules("first_name", "First Name", "trim|required");
 			$this->form_validation->set_rules("last_name", "Last Name", "trim|required");
@@ -122,15 +122,18 @@ class Main extends CI_Controller {
 			}else{
 				$email = $this->input->post('email');
 				$email_exists = $this->User->get_user_by_email($email);
-				//if email does not exist...
+				//if email does not exist add the user
 				if(empty($email_exists)){
 					$add = $this->User->add_user($this->input->post());
+					//this for registering a new user
 					if($add && $this->input->post('action')=="register"){
+						$get_id = $this->User->get_user_by_email($email);
 						$user = array(
+							'id' => $get_id['id'],
 							'first_name' => $this->input->post('first_name'),
 							'last_name' => $this->input->post('last_name'),
 							'email' => $this->input->post('email'),'logged_in' => TRUE);
-						$this->session->set_userdata($user);
+						$this->session->set_userdata('user',$user);
 						redirect('/dashboard');
 					}else{
 						$this->session->set_flashdata('errors',"user added");
@@ -143,7 +146,6 @@ class Main extends CI_Controller {
 			}else{
 				redirect('/users/new');
 			}
-		// }
 	}
 	//user page to edit their profile
 	public function profile()
@@ -162,6 +164,9 @@ class Main extends CI_Controller {
 		if($this->input->post('action')==='password'){
 			$this->form_validation->set_rules("password", "Password", "required");
 			$this->form_validation->set_rules("password2", "Password2", "required|matches[password]");
+		}
+		if($this->input->post('action')==='description'){
+		    $this->form_validation->set_rules("text", "description", "required");
 		}
 		//check if errors exist
 		if($this->form_validation->run() === FALSE){
@@ -193,7 +198,12 @@ class Main extends CI_Controller {
 		}elseif($this->input->post('action')==='description'){
 			$description = $this->User->update_description($this->input->post());
 			$this->session->set_flashdata('info',"decription updated");
+			if($description){
 			redirect('/user/profile');
+			}else{
+			$this->session->set_flashdata('info',"decription not updated");
+			redirect('/user/profile');
+			}
 		}
 	}
 	
@@ -202,48 +212,47 @@ class Main extends CI_Controller {
 	{
 
 		if($this->input->post()){
-		$this->load->library('form_validation');
-		if($this->input->post('action')==='information'){
-			$this->form_validation->set_rules("first_name", "First Name", "trim|required");
-			$this->form_validation->set_rules("last_name", "Last Name", "trim|required");
-			$this->form_validation->set_rules("email", "Email", "required|valid_email");
-		}
-		if($this->input->post('action')==='password'){
-			$this->form_validation->set_rules("password", "Password", "required");
-			$this->form_validation->set_rules("password2", "Password2", "required|matches[password]");
-		}
-		//check if errors exist
-		if($this->form_validation->run() === FALSE){
-			$this->view_data['errors'] = validation_errors();
-			$this->session->set_flashdata('info', $this->view_data['errors']);
-			redirect('/users/edit/'.$id);
-	//<---------------------if errors pass------------------------------>
-		//to update information
-		}elseif($this->input->post('action')==='information'){
-			$email = $this->input->post('email');
-			$email_exists = $this->User->get_user_by_email($email);
-			//if email does not exist...
-			if(empty($email_exists)){
-			$info = array('id' =>$id,'email'=>$this->input->post('email'),
-				'first_name'=>$this->input->post('first_name'),
-				'last_name'=>$this->input->post('last_name'),
-				'level'=>$this->input->post('level'));
-			$update = $this->User->update_information_by_admin($info);
-			$this->session->set_flashdata('info',"informaton updated");
-			redirect('/users/edit/'.$id);
-			}else{
-			$this->session->set_flashdata('info',"eamail exists");
-			redirect('/users/edit/'.$id);
+			$this->load->library('form_validation');
+			if($this->input->post('action')==='information'){
+				$this->form_validation->set_rules("first_name", "First Name", "trim|required");
+				$this->form_validation->set_rules("last_name", "Last Name", "trim|required");
+				$this->form_validation->set_rules("email", "Email", "required|valid_email");
 			}
-		//to update password
-		}elseif($this->input->post('action')==='password'){
-			$results = array('id' =>$id,
-				'password' => $this->input->post('password'));
-			$password = $this->User->update_password($results);
-			$this->session->set_flashdata('info',"password updated");
-			redirect(base_url().'users/edit/'.$id);
-		//to add description
-		}
+			if($this->input->post('action')==='password'){
+				$this->form_validation->set_rules("password", "Password", "required");
+				$this->form_validation->set_rules("password2", "Password2", "required|matches[password]");
+			}
+			//check if errors exist
+			if($this->form_validation->run() === FALSE){
+				$this->view_data['errors'] = validation_errors();
+				$this->session->set_flashdata('info', $this->view_data['errors']);
+				redirect('/users/edit/'.$id);
+		//<---------------------if errors pass------------------------------>
+			//to update information
+			}elseif($this->input->post('action')==='information'){
+				$email = $this->input->post('email');
+				$email_exists = $this->User->get_user_by_email($email);
+				//if email does not exist...
+				if(empty($email_exists)){
+				$info = array('id' =>$id,'email'=>$this->input->post('email'),
+					'first_name'=>$this->input->post('first_name'),
+					'last_name'=>$this->input->post('last_name'),
+					'level'=>$this->input->post('level'));
+				$update = $this->User->update_information_by_admin($info);
+				$this->session->set_flashdata('info',"informaton updated");
+				redirect('/users/edit/'.$id);
+				}else{
+				$this->session->set_flashdata('info',"eamail exists");
+				redirect('/users/edit/'.$id);
+				}
+			//to update password
+			}elseif($this->input->post('action')==='password'){
+				$results = array('id' =>$id,
+					'password' => $this->input->post('password'));
+				$password = $this->User->update_password($results);
+				$this->session->set_flashdata('info',"password updated");
+				redirect(base_url().'users/edit/'.$id);
+			}
 		}else{
 
 			$this->load->view('edit_user',array('id'=>$id));
@@ -252,12 +261,52 @@ class Main extends CI_Controller {
 	//takes user to the wall and displays user information
 	public function user_info($id)
 	{
-		echo "Welcome to CodeIgniter. The default Controller is user_info";
-		echo $id;
+		//get user info for the wall
+		$receiver_info = $this->User->get_user_by_id($id);
+		$this->session->set_userdata('receiver_info',$receiver_info);
+		//set the user id in a session for use in add_message method
+		$this->session->set_userdata('receiver_id',$receiver_info['id']);
+		//fetch messages to display
+		$message = $this->User->get_message();
+		$comment = $this->User->get_comment();
+		// var_dump($comment);
+		// die();
+		$this->load->view('wall',array('message'=>$message,'comment'=>$comment));
+
+	}
+	public function add_message()
+	{
+		//get id of user recieving message
+		$id = $this->session->userdata('receiver_id');
+		//if message form is submitted
+		if($this->input->post('action')=='post'){
+			$data = array('to_id'=>$this->session->userdata('receiver_id'),
+				'user_id'=>$this->session->userdata('user')['id'],
+				'message' => $this->input->post('text'));
+			$message = $this->User->add_message($data);
+			// echo 'here';
+			// die();
+			//redirect back to the wall
+			redirect(base_url().'users/info/'.$id);
+		}
+		if($this->input->post('action')=='comment'){
+			$data = array('to_id'=>$this->session->userdata('receiver_id'),
+				'user_id'=>$this->session->userdata('user')['id'],
+				'message' => $this->input->post('text'),
+				'original_msg' => $this->input->post('msg_id'));
+			$message = $this->User->add_comment($data);
+			// echo 'here';
+			// die();
+			//redirect back to the wall
+			redirect(base_url().'users/info/'.$id);
+		}
 	}
 	//remove user from db
 	public function remove($id)
 	{
+		if($id==33){
+			redirect(base_url().'admin/dashboard');
+		}
 		$delete = $this->User->delete_user($id);
 		redirect(base_url().'admin/dashboard');
 	}

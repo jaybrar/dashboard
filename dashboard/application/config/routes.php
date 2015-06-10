@@ -14,4 +14,6 @@ $route['user/profile'] = "main/profile";
 $route['users/new'] = "main/user_new";
 $route['add_user'] = "main/add_user";
 $route['edit/profile'] = "main/edit_profile";
+$route['add_message'] = "main/add_message";
+$route['add_comment'] = "main/add_message";
 //end of routes.php
