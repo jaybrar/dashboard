@@ -5,7 +5,7 @@ class Main extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->output->enable_profiler();
+		// $this->output->enable_profiler();
 		$this->load->model("User");
 	}
 
@@ -50,6 +50,8 @@ class Main extends CI_Controller {
 				$this->session->set_userdata('user',$user);
 					redirect('/dashboard');
 				}elseif($user['user_level']== 9){
+					// echo "test";
+					// die();
 					$user = array(
 					'id' => $user['id'],
 					'first_name' => $user['first_name'],
@@ -76,7 +78,7 @@ class Main extends CI_Controller {
 	//admin dashboard to edti and remove users
 	public function admin_dashboard()
 	{
-		if($this->session->userdata('logged_in') === TRUE){
+		if($this->session->userdata('user')['logged_in'] === TRUE){
 			$users = $this->User->get_users();
 
 			$this->load->view('admin_dashboard',array('users'=>$users));
@@ -87,7 +89,7 @@ class Main extends CI_Controller {
 	//user dashboard to view profile
 	public function user_dashboard()
 	{	
-		if($this->session->userdata('logged_in') === TRUE){
+		if($this->session->userdata('logged_in')['logged_in'] === TRUE){
 			$users = $this->User->get_users();
 
 			$this->load->view('user_dashboard',array('users'=>$users));
@@ -150,7 +152,10 @@ class Main extends CI_Controller {
 	//user page to edit their profile
 	public function profile()
 	{
-		$this->load->view('edit_profile');
+		$id = $this->session->userdata('user')['id'];
+		$user_info = $this->User->get_user_by_id2($id);
+		$this->load->view('edit_profile',array('user'=>$user_info));
+		// $this->load->view('edit_profile');
 	}
 	//user can edit their profile
 	public function edit_profile()
@@ -254,8 +259,9 @@ class Main extends CI_Controller {
 				redirect(base_url().'users/edit/'.$id);
 			}
 		}else{
-
-			$this->load->view('edit_user',array('id'=>$id));
+			$user_info = $this->User->get_user_by_id2($id);
+			// $this->load->view('edit_user',array('id'=>$id));
+			$this->load->view('edit_user',array('user'=>$user_info));
 		}
 	}
 	//takes user to the wall and displays user information

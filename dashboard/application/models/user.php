@@ -9,6 +9,9 @@ class User extends CI_Model{
 		return $this->db->query("SELECT concat_ws(' ',first_name,last_name) as name,created_at, id,
 			email,description FROM users where id = ?", array($id))->row_array();
 	}
+	public function get_user_by_id2($id){
+		return $this->db->query("SELECT * FROM users where id = ?", array($id))->row_array();
+	}
 	//get all users
 	public function get_users(){
 		return $this->db->query("SELECT *, concat_ws(' ',first_name,last_name) as name FROM users")->result_array();

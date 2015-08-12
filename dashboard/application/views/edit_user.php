@@ -58,7 +58,7 @@
 				<nav class="navbar navbar-default">
 					<div class="container-fluid">
 						<div class="navbar-header">
-							<a class="navbar-brand" href="/">Test App</a>
+							<a class="navbar-brand" href="/">User Dashboard</a>
 						</div>
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav">
@@ -82,7 +82,7 @@
 				}?>
 			</div>
 			<div class="col-md-9 header">
-				<h4 style="display:inline-block;margin:0">Edit user #[user_id]</h4><a href="/admin/dashboard"><button class="pull-right">Return to dashboard</button></a>
+				<h4 style="display:inline-block;margin:0">Edit user #<?=$user['id']?></h4><a href="/admin/dashboard"><button class="pull-right">Return to dashboard</button></a>
 			</div>
 		</div>	
 		<div class="row">
@@ -90,19 +90,19 @@
 				<div class="panel panel-danger">
 					<div class="panel-heading"><h5>Edit Information</h5></div>
 					<div class="panel-body">
-						<form action='/users/edit/<?php echo $id;?>' method='post'>	
+						<form action='/users/edit/<?php echo $user['id'];?>' method='post'>	
 							<div class="form-group">
 								<label for="exampleInputEmail1">Email address</label>
 								<input type='hidden' name='action' value='information'>
-								<input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+								<input type="text" name="email" value="<?=$user['email']?>" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">First Name</label>
-								<input type="name" name="first_name" class="form-control" id="exampleInputEmail1" placeholder="First Name">
+								<input type="name" name="first_name" value="<?=$user['first_name']?>" class="form-control" id="exampleInputEmail1" placeholder="First Name">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">Last Name</label>
-								<input type="name" name="last_name" class="form-control" id="exampleInputEmail1" placeholder="Last Name">
+								<input type="name" name="last_name" value="<?=$user['last_name']?>" class="form-control" id="exampleInputEmail1" placeholder="Last Name">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputPassword1">User Level</label>
@@ -120,7 +120,7 @@
 				<div class="panel panel-danger">
 					<div class="panel-heading"><h5>Change password</h5></div>
 					<div class="panel-body">
-						<form action='/users/edit/<?php echo $id;?>' method='post' enctype='multipart/form-data'>	
+						<form action='/users/edit/<?php echo $user['id'];?>' method='post' enctype='multipart/form-data'>	
 							<div class="form-group">
 								<label for="exampleInputPassword1">Password</label>
 								<input type='hidden' name='action' value='password'>

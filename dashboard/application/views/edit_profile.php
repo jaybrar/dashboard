@@ -57,7 +57,7 @@
 				<nav class="navbar navbar-default">
 					<div class="container-fluid">
 						<div class="navbar-header">
-							<a class="navbar-brand" href="/">Test App</a>
+							<a class="navbar-brand" href="/">User Dashboard</a>
 						</div>
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav">
@@ -97,15 +97,15 @@
 							<div class="form-group">
 								<label for="exampleInputEmail1">Email address</label>
 								<input type='hidden' name='action' value='information'>
-								<input type="text" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+								<input type="text" name="email" value="<?=$user['email']?>" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">First Name</label>
-								<input type="name" name="first_name" class="form-control" id="exampleInputEmail1" placeholder="First Name">
+								<input type="name" name="first_name" value="<?=$user['first_name']?>" class="form-control" id="exampleInputEmail1" placeholder="First Name">
 							</div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">Last Name</label>
-								<input type="name" name="last_name" class="form-control" id="exampleInputEmail1" placeholder="Last Name">
+								<input type="name" name="last_name" value="<?=$user['last_name']?>" class="form-control" id="exampleInputEmail1" placeholder="Last Name">
 							</div>
 							<button type="submit" class="btn btn-success pull-right">Save</button>
 						</form>

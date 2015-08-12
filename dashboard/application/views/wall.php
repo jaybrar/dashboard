@@ -79,7 +79,7 @@
 				<nav class="navbar navbar-default">
 					<div class="container-fluid">
 						<div class="navbar-header">
-							<a class="navbar-brand" href="/">Test App</a>
+							<a class="navbar-brand" href="/">User Dashboard</a>
 						</div>
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav">
@@ -106,10 +106,10 @@
 					$receiver_info = $this->session->userdata('receiver_info');
 				}?>
 				<h3><?=$receiver_info['name']?></h3>
-				<p>registered: <?=$receiver_info['created_at']?></p>
-				<p>user id: <?=$receiver_info['id']?></p>
-				<p>email address: <?=$receiver_info['email']?></p>
-				<p>Descrioption: <?=$receiver_info['description']?></p>
+				<p>Registered: <?=$receiver_info['created_at']?></p>
+				<p>User Id: <?=$receiver_info['id']?></p>
+				<p>Email Address: <?=$receiver_info['email']?></p>
+				<p>Description: <?=$receiver_info['description']?></p>
 			</div>
 		</div>	
 		<div class="row content">
